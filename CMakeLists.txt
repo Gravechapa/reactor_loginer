@@ -40,7 +40,9 @@ include_directories(${SOURCE_ROOT}/headers)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
+if (DEFINED NON_SYSTEM_LIBS AND NON_SYSTEM_LIBS MATCHES "^(.*/[^/ ]*)+/?$")
+set(CMAKE_EXE_LINKER_FLAGS "-Wl,-rpath=./lib -Wl,--dynamic-linker=${NON_SYSTEM_LIBS}")
+endif()
 add_executable(${EXECUTABLE} ${SOURCES} ${HEADERS})
 if(MSVC)
     set_target_properties(${EXECUTABLE} PROPERTIES
